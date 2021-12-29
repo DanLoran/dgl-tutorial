@@ -73,10 +73,10 @@ def train(g, model):
                 e, loss, val_acc, best_val_acc, test_acc, best_test_acc))
 
 # train on cpu
-model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes)
-train(g, model)
+#model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes)
+#train(g, model)
 
 # train on gpu
-# g = g.to('cuda')
-# model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes).to('cuda')
-# train(g, model)
+g = g.to('cuda')
+model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes).to('cuda')
+train(g, model)

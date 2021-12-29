@@ -105,5 +105,11 @@ def train(g, model):
             print('In epoch {}, loss: {:.3f}, val acc: {:.3f} (best {:.3f}), test acc: {:.3f} (best {:.3f})'.format(
                 e, loss, val_acc, best_val_acc, test_acc, best_test_acc))
 
-model = Model(g.ndata['feat'].shape[1], 16, dataset.num_classes)
+#train on cpu
+# model = Model(g.ndata['feat'].shape[1], 16, dataset.num_classes)
+# train(g, model)
+
+# train on gpu
+g = g.to('cuda')
+model = Model(g.ndata['feat'].shape[1], 16, dataset.num_classes).to('cuda')
 train(g, model)
