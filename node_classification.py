@@ -36,12 +36,22 @@ def train(g, model):
     optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
     best_val_acc = 0
     best_test_acc = 0
-
+    
+    # feat: The node features.
     features = g.ndata['feat']
+
+    # label: The ground truth node category.
     labels = g.ndata['label']
+
+    # train_mask: A boolean tensor indicating whether the node is in the training set.
     train_mask = g.ndata['train_mask']
+
+    # val_mask: A boolean tensor indicating whether the node is in the validation set.
     val_mask = g.ndata['val_mask']
+
+    # test_mask: A boolean tensor indicating whether the node is in the test set.
     test_mask = g.ndata['test_mask']
+    
     for e in range(100):
         # Forward
         logits = model(g, features)
@@ -73,10 +83,10 @@ def train(g, model):
                 e, loss, val_acc, best_val_acc, test_acc, best_test_acc))
 
 # train on cpu
-#model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes)
-#train(g, model)
+model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes)
+train(g, model)
 
 # train on gpu
-g = g.to('cuda')
-model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes).to('cuda')
-train(g, model)
+# g = g.to('cuda')
+# model = GCN(g.ndata['feat'].shape[1], 16, dataset.num_classes).to('cuda')
+# train(g, model)
